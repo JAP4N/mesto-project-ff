@@ -16,7 +16,7 @@ function createCard (cardValue, deleteCard) {
     const cardTitle = cardItem.querySelector(".card__title").textContent = cardValue.name;
     const cardImage = cardItem.querySelector(".card__image").setAttribute("src", cardValue.link);
 
-    cardItem.querySelector(".card__delete-button").addEventListener("click", deleteCard);
+    cardItem.querySelector(".card__delete-button").addEventListener("click", deleteCallBack);
     /*
     Комментарий к строке 19. Нужно лучше. Если у функции createCard есть параметр deleteCard, то он должен использоваться в коде функции.
     То есть, в вышележащей инструкции в методе addEventListener должен указываться аргумент deleteCard, а не deleteCallBack.
@@ -24,6 +24,8 @@ function createCard (cardValue, deleteCard) {
     же модуле.
 
     */
+
+
     return cardItem;
 }
 
