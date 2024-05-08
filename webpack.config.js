@@ -1,9 +1,8 @@
-// entry: { main: './src/scripts/index.js' },
-
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -28,7 +27,7 @@ module.exports = {
         exclude: '/node_modules/'
       },
       {
-        test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+        test: /\.(png|svg|jpg|jp?g|gif|woff(2)?|eot|ttf|otf)$/,
         type: 'asset/resource',
       },
       {
@@ -50,6 +49,20 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin(),
-
+    new FaviconsWebpackPlugin({
+      logo: './src/images/add-icon.png',
+      icons: {
+      android: true,
+      appleIcon: true,
+      appleStartup: false,
+      coast: false,
+      favicons: true,
+      firefox: true,
+      opengraph: true,
+      twitter: true,
+      yandex: true,
+      windows: true
+      }
+      })
   ]
 }
