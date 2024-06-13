@@ -1,9 +1,10 @@
-import { selectedAllPopup, profileEditButton, popupEdit, popupList, popupCloseBtnAll, activePopup } from "../scripts/index.js"
+import { selectedAllPopup, profileEditButton, popupEdit, popupList, popupCloseBtnAll } from "../scripts/index.js"
 
 // Открытие popup'a
 export const openPopup = somePopup => {
     somePopup.classList.add("popup_is-opened");
     document.addEventListener("keydown", closePopupByEsc);
+    document.addEventListener("mousedown", closePopupByOverlay)
 };
 
 // Закрытие popup'a
@@ -12,6 +13,7 @@ export const closePopup = somePopup => {
         element.addEventListener("click", () => {
             somePopup.classList.remove("popup_is-opened");
             document.removeEventListener("keydown", closePopupByEsc);
+            document.removeEventListener("mousedown", closePopupByOverlay)
         });
     });
 };
@@ -26,12 +28,31 @@ const closePopupByEsc = evt => {
 };
 
 // Закрытие popup'а по overlay'ю
-export const closePopupByOverlay = popupAll => {
-    popupAll.forEach(item => {
-        item.addEventListener("click", evt => {
+export const closePopupByOverlay = (evt) => {
+    popupList.forEach(item => {
             if (evt.target === item) {
                 item.classList.remove("popup_is-opened");
             }
-        });
     });
 }
+
+//Изменить данные профиля
+export const  handleFormSubmit = evt => {
+    evt.preventDefault();
+
+    const nameInput = popupEdit.querySelector(".popup__input_type_name");
+    const jobInput = popupEdit.querySelector(".popup__input_type_description");
+    const nameInputValue = nameInput.value;
+    const jobInputValue = jobInput.value;
+
+    document.querySelector(".profile__title").textContent = nameInputValue;
+    document.querySelector(".profile__description").textContent = jobInputValue;
+    
+    // Очищаем поля формы
+    nameInput.value = "";
+    jobInput.value = "";
+
+
+    // Закрываем форму
+    popupEdit.classList.remove("popup_is-opened");
+};
