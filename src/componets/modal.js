@@ -1,4 +1,4 @@
-import { selectedAllPopup, profileEditButton, popupEdit, popupList, popupCloseBtnAll } from "../scripts/index.js"
+import { popupEdit, popupList } from "../scripts/index.js"
 
 // Открытие popup'a
 export const openPopup = somePopup => {
@@ -9,13 +9,9 @@ export const openPopup = somePopup => {
 
 // Закрытие popup'a
 export const closePopup = somePopup => {
-    popupCloseBtnAll.forEach(element => {
-        element.addEventListener("click", () => {
-            somePopup.classList.remove("popup_is-opened");
-            document.removeEventListener("keydown", closePopupByEsc);
-            document.removeEventListener("mousedown", closePopupByOverlay)
-        });
-    });
+    somePopup.classList.remove("popup_is-opened");
+    document.removeEventListener("keydown", closePopupByEsc);
+    document.removeEventListener("mousedown", closePopupByOverlay);
 };
 
 // Закрытие popup'a по нажатию 'ESC'
@@ -54,5 +50,5 @@ export const  handleFormSubmit = evt => {
 
 
     // Закрываем форму
-    popupEdit.classList.remove("popup_is-opened");
+    closePopup(popupEdit);
 };
