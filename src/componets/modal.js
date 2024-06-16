@@ -1,5 +1,3 @@
-import { popupEdit, popupList } from "../scripts/index.js"
-
 // Открытие popup'a
 export const openPopup = somePopup => {
     somePopup.classList.add("popup_is-opened");
@@ -14,30 +12,30 @@ export const closePopup = somePopup => {
     document.removeEventListener("mousedown", closePopupByOverlay);
 };
 
-// Закрытие popup'a по нажатию 'ESC'
+// Закрытие popup'a при нажатии на Esc
 const closePopupByEsc = evt => {
-    popupList.forEach(item => {
-        if (evt.key === "Escape") {
-            item.classList.remove("popup_is-opened");
+    if (evt.key === "Escape") {
+        const openPopup = document.querySelector(".popup_is-opened");
+        if (openPopup) {
+            closePopup(openPopup);
         }
-    });
+    }
 };
 
 // Закрытие popup'а по overlay'ю
-export const closePopupByOverlay = (evt) => {
-    popupList.forEach(item => {
-            if (evt.target === item) {
-                item.classList.remove("popup_is-opened");
-            }
-    });
+const closePopupByOverlay = (evt) => {
+    if (evt.target.classList.contains("popup_is-opened")) {
+        closePopup(evt.target);
+    }
 }
 
-//Изменить данные профиля
-export const  handleFormSubmit = evt => {
+//Изменение данных профиля
+const  handleFormSubmit = evt => {
     evt.preventDefault();
 
-    const nameInput = popupEdit.querySelector(".popup__input_type_name");
-    const jobInput = popupEdit.querySelector(".popup__input_type_description");
+    const popupEditProfile = document.querySelector(".popup_type_edit");
+    const nameInput = popupEditProfile.querySelector(".popup__input_type_name");
+    const jobInput = popupEditProfile.querySelector(".popup__input_type_description");
     const nameInputValue = nameInput.value;
     const jobInputValue = jobInput.value;
 
@@ -48,7 +46,6 @@ export const  handleFormSubmit = evt => {
     nameInput.value = "";
     jobInput.value = "";
 
-
     // Закрываем форму
-    closePopup(popupEdit);
+    closePopup(popupEditProfile);
 };
