@@ -28,24 +28,3 @@ const closePopupByOverlay = (evt) => {
         closePopup(evt.target);
     }
 }
-
-//Изменение данных профиля
-const  handleFormSubmit = evt => {
-    evt.preventDefault();
-
-    const popupEditProfile = document.querySelector(".popup_type_edit");
-    const nameInput = popupEditProfile.querySelector(".popup__input_type_name");
-    const jobInput = popupEditProfile.querySelector(".popup__input_type_description");
-    const nameInputValue = nameInput.value;
-    const jobInputValue = jobInput.value;
-
-    document.querySelector(".profile__title").textContent = nameInputValue;
-    document.querySelector(".profile__description").textContent = jobInputValue;
-    
-    // Очищаем поля формы
-    nameInput.value = "";
-    jobInput.value = "";
-
-    // Закрываем форму
-    closePopup(popupEditProfile);
-};

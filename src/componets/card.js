@@ -3,13 +3,14 @@ export function createCard ({name, link}, deleteCard, likeCardBtn, modalOpenImag
     const cardTemplate = document.querySelector("#card-template").content;
     const cardItem = cardTemplate.querySelector(".card").cloneNode(true);
     const cardTitle = cardItem.querySelector(".card__title").textContent = name;
-    const cardImageSrc = cardItem.querySelector(".card__image").src = link;            
-    const cardImageAlt = cardItem.querySelector(".card__image").alt = name;  
+    const cardImage = cardItem.querySelector(".card__image");
+    cardImage.src = link;            
+    cardImage.alt = name;  
 
     cardItem.querySelector(".card__delete-button").addEventListener("click", deleteCard);
     cardItem.querySelector(".card__like-button").addEventListener("click", likeCardBtn);
 
-    cardItem.querySelector(".card__image").addEventListener("click", () => modalOpenImageCard(name, link))
+    cardImage.addEventListener("click", () => modalOpenImageCard(name, link))
 
     return cardItem;
 }

@@ -10,6 +10,7 @@ const mainContent = document.querySelector(".content")
 
 //Слушатели появления popup'ов
 const profileEditButton = mainContent.querySelector(".profile__edit-button");
+const profileAddButton = document.querySelector(".profile__add-button");
 
 //Слушатели ичезновения popup'ов
 const popupCloseBtnAll = document.querySelectorAll(".popup__close");
@@ -38,12 +39,13 @@ const linkImgPopup = document.querySelector(".popup__input_type_url");
 const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_description");
 
+//поля вывода карточек на страницу
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+
 //ручное создание карточки
 const handleCreateCard = evt => {
     evt.preventDefault();
-
-    const cardList = document.querySelector(".places__list");
-    const popupNewCard = document.querySelector(".popup_type_new-card");
 
     const newCardfromPopup = createCard ({
         name: nameCardPopup.value, 
@@ -63,21 +65,21 @@ const handleCreateCard = evt => {
 const  handleFormSubmit = evt => {
     evt.preventDefault();
 
-    const popupEditProfile = document.querySelector(".popup_type_edit");
     const nameInputValue = nameInput.value;
     const jobInputValue = jobInput.value;
 
-    document.querySelector(".profile__title").textContent = nameInputValue;
-    document.querySelector(".profile__description").textContent = jobInputValue;
+    profileTitle.textContent = nameInputValue;
+    profileDescription.textContent = jobInputValue;
 
     // Закрываем форму
-    closePopup(popupEditProfile);
+    closePopup(popupEdit);
 };
 
 //Функция открытия модального окна картинки
 export const modalOpenImageCard = (name, link) => {
     popupCaption.textContent = name;
     popupImage.src = link;
+    popupImage.alt = name;
 
     openPopup(popupTypeImage);
 };
@@ -89,27 +91,17 @@ initialCards.forEach(cardData => {
 });
 
 //Вывести popup edit на страницу
-document.addEventListener("click", evt => {
-    if (evt.target.classList.contains("profile__edit-button")) {
-        const profileTitle = document.querySelector(".profile__title").textContent;
-        const profileDescription = document.querySelector(".profile__description").textContent;
-        const nameInput = document.querySelector(".popup__input_type_name");
-        const jobInput = document.querySelector(".popup__input_type_description");
+profileEditButton.addEventListener("click", () => {
+    nameInput.value = profileTitle.textContent;
+    jobInput.value  = profileDescription.textContent;
 
-        nameInput.value = profileTitle;
-        jobInput.value  = profileDescription;
-
-        openPopup(popupEdit);
-    }
+    openPopup(popupEdit);
 });
 
 //Вывести popup addCard на страницу
-document.addEventListener("click", evt => {
-    if (evt.target.classList.contains("profile__add-button")) {
+profileAddButton.addEventListener("click", () => {
         openPopup(popupNewCard);
-    } 
 });
-
 
 //закрыть popup
 popupCloseBtnAll.forEach(item => {
