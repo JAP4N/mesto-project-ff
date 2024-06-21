@@ -62,7 +62,7 @@ const handleCreateCard = evt => {
 };
 
 //Изменение данных профиля
-const  handleFormSubmit = evt => {
+const  handleFormEdit = evt => {
     evt.preventDefault();
 
     const nameInputValue = nameInput.value;
@@ -112,7 +112,7 @@ popupCloseBtnAll.forEach(item => {
 });
 
 //Слушатель изменения данных профиля
-editForm.addEventListener("submit", handleFormSubmit);
+editForm.addEventListener("submit", handleFormEdit);
 
 //Слушатель добавления карточки из popup'a
 newPlace.addEventListener("submit", handleCreateCard);
