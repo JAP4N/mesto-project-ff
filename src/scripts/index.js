@@ -4,6 +4,7 @@ import '/src/pages/index.css';
 import { initialCards } from './cards.js';
 import { openPopup, closePopup } from '../componets/modal.js'
 import { likeCardBtn, createCard, deleteCardBtn } from '../componets/card.js'
+import { enableValidation, clearValidation } from '../componets/validation.js'
 
 //DOM main content
 const mainContent = document.querySelector(".content")

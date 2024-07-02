@@ -10,9 +10,9 @@
   margin-bottom: 10px;
 }
 
-.popup__input:invalid {
+/* .popup__input:invalid {
   border-bottom-color: #f00;
-}
+} */
 
 .popup__input:last-of-type {
   margin-bottom: 0;
