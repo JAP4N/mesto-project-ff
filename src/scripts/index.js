@@ -116,4 +116,3 @@ editForm.addEventListener("submit", handleFormEdit);
 
 //Слушатель добавления карточки из popup'a
 newPlace.addEventListener("submit", handleCreateCard);
-
