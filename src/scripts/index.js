@@ -55,9 +55,6 @@ const handleCreateCard = evt => {
 
     cardList.prepend(newCardfromPopup);
 
-    // Очищаем форму
-    newPlace.reset();
-
     // Закрываем форму
     closePopup(popupNewCard);
 };
@@ -96,12 +93,25 @@ profileEditButton.addEventListener("click", () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value  = profileDescription.textContent;
 
+    const clearInputValue = popupEdit.querySelector('.popup__form')
+    clearValidation(clearInputValue);
+
+    enableValidation();
+
     openPopup(popupEdit);
 });
 
 //Вывести popup addCard на страницу
 profileAddButton.addEventListener("click", () => {
-        openPopup(popupNewCard);
+    // Очищаем форму
+    newPlace.reset();
+
+    const clearInputValue = popupNewCard.querySelector('.popup__form')
+    clearValidation(clearInputValue);
+
+    enableValidation();
+
+    openPopup(popupNewCard);
 });
 
 //закрыть popup
