@@ -44,6 +44,16 @@ const jobInput = document.querySelector(".popup__input_type_description");
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 
+//Конфиг для валидации
+const validationConfig = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_inactive',
+    inputErrorClass: 'form__input_type_error',
+    errorClass: 'form__input-error_active'
+}
+
 //ручное создание карточки
 const handleCreateCard = evt => {
     evt.preventDefault();
@@ -93,10 +103,9 @@ profileEditButton.addEventListener("click", () => {
     nameInput.value = profileTitle.textContent;
     jobInput.value  = profileDescription.textContent;
 
-    const clearInputValue = popupEdit.querySelector('.popup__form')
-    clearValidation(clearInputValue);
+    const formElement = popupEdit.querySelector('.popup__form');
 
-    enableValidation();
+    clearValidation(formElement, validationConfig);
 
     openPopup(popupEdit);
 });
@@ -106,10 +115,9 @@ profileAddButton.addEventListener("click", () => {
     // Очищаем форму
     newPlace.reset();
 
-    const clearInputValue = popupNewCard.querySelector('.popup__form')
-    clearValidation(clearInputValue);
+    const formElement = popupNewCard.querySelector('.popup__form');
 
-    enableValidation();
+    clearValidation(formElement, validationConfig);
 
     openPopup(popupNewCard);
 });
@@ -127,3 +135,6 @@ editForm.addEventListener("submit", handleFormEdit);
 
 //Слушатель добавления карточки из popup'a
 newPlace.addEventListener("submit", handleCreateCard);
+
+//Активации валидации
+enableValidation(validationConfig);
