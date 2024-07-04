@@ -6,6 +6,7 @@ import { initialCards } from './cards.js';
 import { openPopup, closePopup } from '../componets/modal.js'
 import { likeCardBtn, createCard, deleteCardBtn } from '../componets/card.js'
 import { enableValidation, clearValidation } from '../componets/validation.js'
+import {loadUserData, loadCards, updateUserData, addNewCard } from '../componets/api.js'
 
 //DOM main content
 const mainContent = document.querySelector(".content")
@@ -44,6 +45,7 @@ const jobInput = document.querySelector(".popup__input_type_description");
 //поля вывода карточек на страницу
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
+const profileAvatar = document.querySelector(".profile__image");
 
 //Конфиг для валидации
 const validationConfig = {
@@ -55,33 +57,55 @@ const validationConfig = {
     errorClass: 'form__input-error_active'
 }
 
+//Загрузка данных пользователя и карточек
+Promise.all([loadUserData(), loadCards()])
+    .then(([userData, cards]) => {
+        profileTitle.textContent = userData.name;
+        profileDescription.textContent = userData.about;
+        profileAvatar.src = userData.avatar;
+
+        cards.forEach(cardData => {
+            const newCardItem = createCard(cardData, deleteCardBtn, likeCardBtn, modalOpenImageCard);
+            cardList.append(newCardItem);
+        });
+    })
+    .catch(err => {
+        console.error(`Ошибка при загрузке данных - ${err}`);
+    });
+
 //ручное создание карточки
 const handleCreateCard = evt => {
     evt.preventDefault();
 
-    const newCardfromPopup = createCard ({
-        name: nameCardPopup.value, 
-        link: linkImgPopup.value,
-    }, deleteCardBtn, likeCardBtn, modalOpenImageCard)
+    const name = nameCardPopup.value; 
+    const link = linkImgPopup.value;
 
-    cardList.prepend(newCardfromPopup);
-
-    // Закрываем форму
-    closePopup(popupNewCard);
+    addNewCard(name, link)
+        .then(newCard => {
+            const newCardItem = createCard(newCard, deleteCardBtn, likeCardBtn, modalOpenImageCard);
+            cardList.prepend(newCardItem);
+            // Закрываем форму
+            closePopup(popupNewCard);
+        })
+        .catch(err => {
+            console.error(`Ошибка при добавлении новой карточки - ${err}`);
+        })
 };
 
 //Изменение данных профиля
 const  handleFormEdit = evt => {
     evt.preventDefault();
 
-    const nameInputValue = nameInput.value;
-    const jobInputValue = jobInput.value;
+    const name = nameInput.value;
+    const job = jobInput.value;
 
-    profileTitle.textContent = nameInputValue;
-    profileDescription.textContent = jobInputValue;
-
-    // Закрываем форму
-    closePopup(popupEdit);
+    updateUserData(name, job)
+    .then(newUser => {
+        profileTitle.textContent = newUser.name;
+        profileDescription.textContent = newUser.about;
+        // Закрываем форму
+        closePopup(popupEdit);
+    })
 };
 
 //Функция открытия модального окна картинки
@@ -94,10 +118,10 @@ export const modalOpenImageCard = (name, link) => {
 };
 
 //Вывести карточки на страницу
-initialCards.forEach(cardData => {
-    const newCardItem = createCard(cardData, deleteCardBtn, likeCardBtn, modalOpenImageCard);
-    cardList.append(newCardItem);
-});
+// initialCards.forEach(cardData => {
+//     const newCardItem = createCard(cardData, deleteCardBtn, likeCardBtn, modalOpenImageCard);
+//     cardList.append(newCardItem);
+// });
 
 //Вывести popup edit на страницу
 profileEditButton.addEventListener("click", () => {
