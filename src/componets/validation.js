@@ -1,3 +1,4 @@
+//Показать ошибку ввода
 const showInputError = (formElement, inputElement, errorMessage, inputErrorClass, errorClass) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
@@ -6,6 +7,7 @@ const showInputError = (formElement, inputElement, errorMessage, inputErrorClass
     errorElement.classList.add(errorClass);
 };
 
+//Скрыть ошибку ввода
 const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
 
@@ -15,6 +17,7 @@ const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) 
 
 };
 
+//Проверка валидности поля popap'а
 const isValid = (formElement, inputElement, inputErrorClass, errorClass) => {
     if (inputElement.validity.patternMismatch) {
         inputElement.setCustomValidity(inputElement.dataset.errorMessage);
@@ -29,12 +32,14 @@ const isValid = (formElement, inputElement, inputErrorClass, errorClass) => {
     }
 }
 
+//Проверка на наличие невалидных полей
 const hasInvalidInput = (inputList) => {
     return inputList.some(inputElement => {
         return !inputElement.validity.valid;
     })
 };
 
+//отслеживание состояния кнопки
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     if (hasInvalidInput(inputList)) {
         buttonElement.disavled = true;
@@ -45,6 +50,7 @@ const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     }
 }
 
+//Установка слушателей для полей
 const setEventListeners = (formElement, {
     inputSelector,
     submitButtonSelector,

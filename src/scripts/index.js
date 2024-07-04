@@ -1,4 +1,5 @@
 import '/src/pages/index.css';
+import '../componets/api.js';
 
 //import
 import { initialCards } from './cards.js';
@@ -105,6 +106,7 @@ profileEditButton.addEventListener("click", () => {
 
     const formElement = popupEdit.querySelector('.popup__form');
 
+    //Очистка ошибок валидации
     clearValidation(formElement, validationConfig);
 
     openPopup(popupEdit);
@@ -117,6 +119,7 @@ profileAddButton.addEventListener("click", () => {
 
     const formElement = popupNewCard.querySelector('.popup__form');
 
+    //Очистка ошибок валидации
     clearValidation(formElement, validationConfig);
 
     openPopup(popupNewCard);
@@ -136,5 +139,5 @@ editForm.addEventListener("submit", handleFormEdit);
 //Слушатель добавления карточки из popup'a
 newPlace.addEventListener("submit", handleCreateCard);
 
-//Активации валидации
+//Активация валидации
 enableValidation(validationConfig);
