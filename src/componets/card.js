@@ -1,4 +1,4 @@
-import { toggleLike } from './api.js'
+import { toggleLike, deleteUserCard } from './api.js'
 
 //Функция создания карточки
 export function createCard ({name, link, likes, _id, owner}, userId, deleteCard, likeCardBtn, modalOpenImageCard) {
@@ -23,7 +23,7 @@ export function createCard ({name, link, likes, _id, owner}, userId, deleteCard,
 
     // Проверка на владельца карточки
     if (owner._id === userId) {
-        deleteButton.addEventListener("click", deleteCard);
+        deleteButton.addEventListener("click", () => deleteCard(_id, cardItem));
     }   else {
         deleteButton.remove();
     }
@@ -35,8 +35,14 @@ export function createCard ({name, link, likes, _id, owner}, userId, deleteCard,
 }
 
 //удаление карточки
-export const deleteCardBtn = evt => {
-    evt.target.closest(".card").remove();
+export const deleteCardBtn = (cardId, cardElement) => {
+    deleteUserCard(cardId)
+        .then(() => {
+            cardElement.remove();
+        })
+        .catch(err => {
+            console.error(`Ошибка при удалении карточки - ${err}`)
+        })
 };
 
 // функция добавления/удаления like'а

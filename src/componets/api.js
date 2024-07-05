@@ -109,3 +109,22 @@ export const toggleLike = (cardId, isLiked) => {
         console.log(`Ошибка при обновлении лайка - ${err}`);
     });
 };
+
+//Функция удаления карточки
+export const deleteUserCard = (cardId) => {
+    return fetch(`${baseURL}/v1/${groupId}/cards/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+            authorization: token
+        }
+    })
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(res.status)
+    })
+    .catch(err => {
+        console.log(`Ошибка при удалении карточки - ${err}`)
+    });
+};
