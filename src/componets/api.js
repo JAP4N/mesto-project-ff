@@ -17,7 +17,7 @@ export const loadUserData = () => {
     })
     .catch(err => {
         console.log(`Ошибка при загрузке данных пользователя - ${err}`)
-    })
+    });
 };
 
 //Функция загрузки карточек
@@ -35,7 +35,7 @@ export const loadCards = () => {
     })
     .catch(err => {
         console.log(`Ошибка при выгрузке карточек - ${err}`)
-    })
+    });
 };
 
 //Функция обновления данных профиля
@@ -59,7 +59,7 @@ export const updateUserData = (name, about) => {
     })
     .catch(err => {
         console.log(`Ошибка при обновлении данных профиля - ${err}`)
-    })
+    });
 };
 
 //Функция добавления новой карточки
@@ -83,5 +83,29 @@ export const addNewCard = (name, link) => {
     })
     .catch(err => {
         console.log(`Ошибка при добавлении новой карточки - ${err}`)
+    });
+};
+
+
+//Функция обновления колличества лайков под карточкой
+export const toggleLike = (cardId, isLiked) => {
+    // Если isLiked истинно - DELETE. Если isLiked ложно - PUT
+    const method = isLiked ? 'DELETE' : 'PUT';
+
+    return fetch(`${baseURL}/v1/${groupId}/cards/likes/${cardId}`, {
+        method: method,
+        headers: {
+            authorization: token,
+            'Content-Type': 'application/json'
+        }
     })
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(res.status);
+    })
+    .catch(err => {
+        console.log(`Ошибка при обновлении лайка - ${err}`);
+    });
 };

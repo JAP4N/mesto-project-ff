@@ -2,7 +2,6 @@ import '/src/pages/index.css';
 import '../componets/api.js';
 
 //import
-import { initialCards } from './cards.js';
 import { openPopup, closePopup } from '../componets/modal.js'
 import { likeCardBtn, createCard, deleteCardBtn } from '../componets/card.js'
 import { enableValidation, clearValidation } from '../componets/validation.js'
@@ -60,12 +59,13 @@ const validationConfig = {
 //Загрузка данных пользователя и карточек
 Promise.all([loadUserData(), loadCards()])
     .then(([userData, cards]) => {
+        const userId = userData._id;
         profileTitle.textContent = userData.name;
         profileDescription.textContent = userData.about;
         profileAvatar.src = userData.avatar;
 
         cards.forEach(cardData => {
-            const newCardItem = createCard(cardData, deleteCardBtn, likeCardBtn, modalOpenImageCard);
+            const newCardItem = createCard({...cardData, owner: cardData.owner}, userId, deleteCardBtn, likeCardBtn, modalOpenImageCard);
             cardList.append(newCardItem);
         });
     })
@@ -82,7 +82,8 @@ const handleCreateCard = evt => {
 
     addNewCard(name, link)
         .then(newCard => {
-            const newCardItem = createCard(newCard, deleteCardBtn, likeCardBtn, modalOpenImageCard);
+            const userId = profileTitle.textContent; // Используем id текущего пользователя
+            const newCardItem = createCard({...newCard, owner: { _id: userId }}, userId, deleteCardBtn, likeCardBtn, modalOpenImageCard);
             cardList.prepend(newCardItem);
             // Закрываем форму
             closePopup(popupNewCard);
@@ -116,12 +117,6 @@ export const modalOpenImageCard = (name, link) => {
 
     openPopup(popupTypeImage);
 };
-
-//Вывести карточки на страницу
-// initialCards.forEach(cardData => {
-//     const newCardItem = createCard(cardData, deleteCardBtn, likeCardBtn, modalOpenImageCard);
-//     cardList.append(newCardItem);
-// });
 
 //Вывести popup edit на страницу
 profileEditButton.addEventListener("click", () => {
