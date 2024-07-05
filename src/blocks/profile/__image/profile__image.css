@@ -1,22 +1,53 @@
-.profile__image {
+.profile__image-container {
+  position: relative;
   width: 120px;
   height: 120px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
+  margin: 0 29px 0 0;
+  border-radius: 50%;
+}
+
+.profile__image {
+  position: relative;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  margin: 0 29px 0 0;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .6s;
+}
+
+.profile__image:hover {
+  opacity: .6;
+}
+
+.profile__image_load-image {
+  position: absolute;
+  inset: 45px;
+  opacity: 0;
+  background-image: url("/src/images/Vector.svg");
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  pointer-events: none;
+  transition: opacity .6s;
+}
+
+.profile__image-container:hover .profile__image_load-image {
+  opacity: 1;
 }
 
 @media screen and (max-width: 740px) {
-  .profile__image {
+  .profile__image-container {
     margin: 0 10px 0 0;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .profile__image {
+  .profile__image-container {
     margin-right: 0;
   }
 }

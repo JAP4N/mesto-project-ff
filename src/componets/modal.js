@@ -28,3 +28,14 @@ const closePopupByOverlay = (evt) => {
         closePopup(evt.target);
     }
 }
+
+//Отображение загрузки данных
+export const renderLoading = (isLoading, formElement) => {
+    const activeBtnSubmit= formElement.querySelector(".popup__button")
+
+    if (isLoading) {
+        activeBtnSubmit.textContent = "Сохранить...";
+    } else if (!isLoading) {
+        activeBtnSubmit.textContent = "Сохранить";
+    }
+  };

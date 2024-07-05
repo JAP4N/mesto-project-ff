@@ -128,3 +128,27 @@ export const deleteUserCard = (cardId) => {
         console.log(`Ошибка при удалении карточки - ${err}`)
     });
 };
+
+//Функция обновления аватара пользователя
+export const updateUserAvatar = (avatar) => {
+    return fetch(`${baseURL}/v1/${groupId}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: {
+            authorization: token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            avatar: avatar
+        })
+    })
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(res.status)
+    })
+    .catch(err => {
+        console.log(`Ошибка при обновлении аватара профиля - ${err}`)
+    });
+};
+

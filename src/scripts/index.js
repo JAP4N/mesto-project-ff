@@ -2,10 +2,10 @@ import '/src/pages/index.css';
 import '../componets/api.js';
 
 //import
-import { openPopup, closePopup } from '../componets/modal.js'
+import { openPopup, closePopup, renderLoading } from '../componets/modal.js'
 import { likeCardBtn, createCard, deleteCardBtn } from '../componets/card.js'
 import { enableValidation, clearValidation } from '../componets/validation.js'
-import {loadUserData, loadCards, updateUserData, addNewCard } from '../componets/api.js'
+import {loadUserData, loadCards, updateUserData, addNewCard, updateUserAvatar } from '../componets/api.js'
 
 //DOM main content
 const mainContent = document.querySelector(".content")
@@ -13,6 +13,7 @@ const mainContent = document.querySelector(".content")
 //Слушатели появления popup'ов
 const profileEditButton = mainContent.querySelector(".profile__edit-button");
 const profileAddButton = document.querySelector(".profile__add-button");
+const profileEditAvatar = document.querySelector(".profile__image");
 
 //Слушатели ичезновения popup'ов
 const popupCloseBtnAll = document.querySelectorAll(".popup__close");
@@ -20,11 +21,13 @@ const popupCloseBtnAll = document.querySelectorAll(".popup__close");
 //form
 const editForm = document.forms.edit_profile;
 const newPlace = document.forms.new_place;
+const editAvatar = document.forms.edit_avatar;
 
 //DOM popup
 const popupEdit = document.querySelector(".popup_type_edit");
 const popupNewCard = document.querySelector(".popup_type_new-card");
 const popupTypeImage = document.querySelector(".popup_type_image");
+const popupEditAvatar = document.querySelector(".popup_type_edit-avatar");
 
 //Темплейт карточки
 const cardList = document.querySelector(".places__list");
@@ -80,6 +83,8 @@ const handleCreateCard = evt => {
     const name = nameCardPopup.value; 
     const link = linkImgPopup.value;
 
+    renderLoading(true, newPlace);
+
     addNewCard(name, link)
         .then(newCard => {
             const userId = profileTitle.textContent; // Используем id текущего пользователя
@@ -91,6 +96,9 @@ const handleCreateCard = evt => {
         .catch(err => {
             console.error(`Ошибка при добавлении новой карточки - ${err}`);
         })
+        .finally(() => {
+            renderLoading(false, newPlace);
+        });
 };
 
 //Изменение данных профиля
@@ -100,6 +108,8 @@ const  handleFormEdit = evt => {
     const name = nameInput.value;
     const job = jobInput.value;
 
+    renderLoading(true, editForm);
+
     updateUserData(name, job)
     .then(newUser => {
         profileTitle.textContent = newUser.name;
@@ -107,6 +117,35 @@ const  handleFormEdit = evt => {
         // Закрываем форму
         closePopup(popupEdit);
     })
+    .catch(err => {
+        console.error(`Ошибка при обновлении данных профиля - ${err}`);
+    })
+    .finally(() => {
+        renderLoading(false, editForm);
+    });
+};
+
+//Обновление аватара пользователя
+const handleEditAvatar = evt => {
+    evt.preventDefault();
+
+    const avatarLink = editAvatar.querySelector(".popup__input_type_url").value;
+
+    renderLoading(true, editAvatar);
+
+    updateUserAvatar(avatarLink)
+        .then(newUser => {
+            profileAvatar.src = newUser.avatar;
+            
+            // Закрываем форму
+            closePopup(popupEditAvatar);
+        })
+        .catch(err => {
+            console.error(`Ошибка при обновлении аватара профиля - ${err}`)
+        })
+        .finally(() => {
+            renderLoading(false, editAvatar);
+        });
 };
 
 //Функция открытия модального окна картинки
@@ -144,6 +183,19 @@ profileAddButton.addEventListener("click", () => {
     openPopup(popupNewCard);
 });
 
+//Вывести popup EditAvatar на страницу
+profileEditAvatar.addEventListener("click", () => {
+    // Очищаем форму
+    editAvatar.reset();
+
+    const formElement = popupEditAvatar.querySelector('.popup__form');
+
+    //Очистка ошибок валидации
+    clearValidation(formElement, validationConfig);
+
+    openPopup(popupEditAvatar);
+});
+
 //закрыть popup
 popupCloseBtnAll.forEach(item => {
     item.addEventListener("click", evt => {
@@ -157,6 +209,9 @@ editForm.addEventListener("submit", handleFormEdit);
 
 //Слушатель добавления карточки из popup'a
 newPlace.addEventListener("submit", handleCreateCard);
+
+//Слушатель обновления аватара пользователя
+editAvatar.addEventListener("submit", handleEditAvatar);
 
 //Активация валидации
 enableValidation(validationConfig);
