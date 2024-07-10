@@ -42,10 +42,10 @@ const hasInvalidInput = (inputList) => {
 //отслеживание состояния кнопки
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
     if (hasInvalidInput(inputList)) {
-        buttonElement.disavled = true;
+        buttonElement.disabled = true;
         buttonElement.classList.add(inactiveButtonClass);
     } else {
-        buttonElement.disavled = false;
+        buttonElement.disabled = false;
         buttonElement.classList.remove(inactiveButtonClass);
     }
 }
@@ -75,24 +75,16 @@ const setEventListeners = (formElement, {
 //Функция активации валидации
 export const enableValidation = ({
     formSelector,
-    inputSelector,
-    submitButtonSelector,
-    inactiveButtonClass,
-    inputErrorClass,
-    errorClass
+    ...rest
   }) => {
 
 
-    const formList = Array.from(document.querySelectorAll(".popup__form"))
+    const formList = Array.from(document.querySelectorAll(formSelector))
 
     formList.forEach(formElement => {
         setEventListeners(formElement, {
             formSelector,
-            inputSelector,
-            submitButtonSelector,
-            inactiveButtonClass,
-            inputErrorClass,
-            errorClass
+            ...rest
           });
     });
 };

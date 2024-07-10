@@ -2,6 +2,14 @@ const baseURL = 'https://mesto.nomoreparties.co';
 const groupId = 'wff-cohort-17';
 const token = '3da66894-1d7a-436c-a006-4109dd78abb3';
 
+//Функция проверки ответа сервера
+const checkResponse = res => {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 //Функция загрузки информации о пользователе с сервера
 export const loadUserData = () => {
     return fetch(`${baseURL}/v1/${groupId}/users/me`, {
@@ -9,15 +17,7 @@ export const loadUserData = () => {
             authorization: token
         }
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status)
-    })
-    .catch(err => {
-        console.log(`Ошибка при загрузке данных пользователя - ${err}`)
-    });
+    .then(checkResponse);
 };
 
 //Функция загрузки карточек
@@ -27,15 +27,7 @@ export const loadCards = () => {
             authorization: token
         }   
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status)
-    })
-    .catch(err => {
-        console.log(`Ошибка при выгрузке карточек - ${err}`)
-    });
+    .then(checkResponse);
 };
 
 //Функция обновления данных профиля
@@ -47,19 +39,11 @@ export const updateUserData = (name, about) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: name,
-          about: about
+          name,
+          about
         })
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status)
-    })
-    .catch(err => {
-        console.log(`Ошибка при обновлении данных профиля - ${err}`)
-    });
+    .then(checkResponse);
 };
 
 //Функция добавления новой карточки
@@ -71,19 +55,11 @@ export const addNewCard = (name, link) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: name,
-          link: link
+          name,
+          link
         })
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status)
-    })
-    .catch(err => {
-        console.log(`Ошибка при добавлении новой карточки - ${err}`)
-    });
+    .then(checkResponse);
 };
 
 
@@ -99,15 +75,7 @@ export const toggleLike = (cardId, isLiked) => {
             'Content-Type': 'application/json'
         }
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status);
-    })
-    .catch(err => {
-        console.log(`Ошибка при обновлении лайка - ${err}`);
-    });
+    .then(checkResponse);
 };
 
 //Функция удаления карточки
@@ -118,15 +86,7 @@ export const deleteUserCard = (cardId) => {
             authorization: token
         }
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status)
-    })
-    .catch(err => {
-        console.log(`Ошибка при удалении карточки - ${err}`)
-    });
+    .then(checkResponse);
 };
 
 //Функция обновления аватара пользователя
@@ -138,17 +98,9 @@ export const updateUserAvatar = (avatar) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            avatar: avatar
+            avatar
         })
     })
-    .then(res => {
-        if (res.ok) {
-            return res.json();
-        }
-        return Promise.reject(res.status)
-    })
-    .catch(err => {
-        console.log(`Ошибка при обновлении аватара профиля - ${err}`)
-    });
+    .then(checkResponse);
 };
 
