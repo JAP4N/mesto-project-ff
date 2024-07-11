@@ -14,6 +14,7 @@ const hideInputError = (formElement, inputElement, inputErrorClass, errorClass) 
     inputElement.classList.remove(inputErrorClass)
     errorElement.classList.remove(errorClass);
     errorElement.textContent = "";
+    inputElement.setCustomValidity(""); 
 
 };
 

@@ -104,11 +104,12 @@ const handleCreateCard = evt => {
 
     addNewCard(name, link)
         .then(newCard => {
-            userId = newCard._id;
-            const newCardItem = createCard({...newCard, owner: { _id: userId }}, userId, deleteCardBtn, likeCardBtn, handleImageClick);
+            const newCardItem = createCard(newCard, userId, deleteCardBtn, likeCardBtn, handleImageClick);
             cardsContainer.prepend(newCardItem);
             // Очищаем форму
             newPlace.reset();
+            //Очистка ошибок валидации после того, как форма очистилась
+            clearValidation(addCardFormElement, validationConfig);
             // Закрываем форму
             closePopup(popupNewCard);
         })
@@ -189,9 +190,6 @@ profileEditButton.addEventListener("click", () => {
 
 //Вывести popup addCard на страницу
 profileAddButton.addEventListener("click", () => {
-    //Очистка ошибок валидации
-    clearValidation(addCardFormElement, validationConfig);
-
     openPopup(popupNewCard);
 });
 
